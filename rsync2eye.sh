@@ -36,7 +36,7 @@ if [ ! -d ${dst} ]; then
 fi
 echo "$(date). Starting to move images from stan."
 begin=$(date +"%s")
-rsyncstr="-a --remove-source-files --include='*/' --include='*.jpg' --exclude='*'"
+rsyncstr="-a --remove-source-files --stats --include='*/' --include='*.jpg' --exclude='*'"
 rsync ${rsyncstr} -e "ssh -p ${sshport} " $src ${localpicdir}/stansCams
 
 if [ $? -ne 0 ]; then
@@ -64,7 +64,7 @@ fi
 echo "Starting at $(date). Backing up pix to walrus."
 
 begin=$(date +"%s")
-rsync -a ${localpicdir}/* ${walrusmountpoint}
+rsync -a --stats  ${localpicdir}/* ${walrusmountpoint}
 
 termin=$(date +"%s")
 difftimelps=$(($termin-$begin))
