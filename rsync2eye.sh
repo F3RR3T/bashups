@@ -1,7 +1,16 @@
 #!/bin/bash
-# script to backup pix to walrus
+# script to backup pix drom stan to walrus
 # SJP 4 April 2017
-
+# Stan is the boss of all raspberry pis in my LAN. He is named after
+# my imaginary STANdard poodle, who will also be a cattle dog. Thus Stan
+# is in charge of all the other devices and keep strack of what they
+# are doing.
+#
+# Walrus is a NAS (Network-Attached Storage). It is a Synology 2-disk model
+# that looks a bit like a beached whale but its whiteness made me think
+# of a walrus tusk. 
+# I'm not always at stan's house, and walrus comes with me when I travel. So
+# I have to include local config settings.
 
 # Move files from Stan
 # https://logbuffer.wordpress.com/2011/03/24/linux-copy-only-certain-filetypes-with-rsync-from-foldertree/
@@ -40,6 +49,7 @@ difftimelps=$(($termin-$begin))
 echo "$(($difftimelps / 60)) minutes and $(($difftimelps % 60)) seconds elapsed to copy from Stan."
 
 # Is walrus mounted already?
+# This bit doesn't work too well. I need to mount as sudo.. hmmm
 mountpoint -q ${walrusmountpoint}
 if [ $? -eq 1 ]; then
 	echo "Mounting walrus/pix to ${walrusmountpoint}."
