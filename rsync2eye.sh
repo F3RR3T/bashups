@@ -11,6 +11,7 @@
 src=remoteSystem:/path/to/photos
 localpicdir=~/localpix
 walrusmountpoint=/mnt/walrus/eye
+sshport=22
 # end of local.config vars
 
 if [ -e local.config ]; then
@@ -26,7 +27,8 @@ if [ ! -d ${dst} ]; then
 fi
 echo "$(date). Starting to move images from stan."
 begin=$(date +"%s")
-rsync -a --remove-source-files --include='*/' --include='*.jpg' --exclude='*' -e "ssh -p 51337" $src ${localpicdir}/stansCams
+rsyncstr="-a --remove-source-files --include='*/' --include='*.jpg' --exclude='*'"
+rsync ${rsyncstr} -e "ssh -p ${sshport} " $src ${localpicdir}/stansCams
 
 if [ $? -ne 0 ]; then
 	echo "rsync from stan failed with exit code $? - exiting"
