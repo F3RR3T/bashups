@@ -1,0 +1,14 @@
+#this is a file with comments
+#another line
+# how do I grep for uncoimmented lines?
+try grep -v '^#' <file>
+# that works
+but grep -nv '^#' <file> is even better
+# another comment
+
+#preceeding line was whitespace
+but this is real.
+
+And now we can exclude whitespace or empty lines:
+grep -nvE '^#|^ |^$' grepcomments
+#rox
