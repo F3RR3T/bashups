@@ -1,0 +1,11 @@
+# This is the output of 
+    $ cat /proc/asound/cards
+with Korg SQ-1 and Arturia Keystep plugged in via usb and TURNED ON.
+The device 'names' in square brackets are useful in start_jack.sh
+
+0 [PCH            ]: HDA-Intel - HDA Intel PCH
+                      HDA Intel PCH at 0x2ffff20000 irq 138
+ 1 [A32            ]: USB-Audio - Arturia KeyStep 32
+                      Arturia Arturia KeyStep 32 at usb-0000:00:14.0-11, full speed
+ 2 [SQ1            ]: USB-Audio - SQ-1
+                      KORG INC. SQ-1 at usb-0000:00:14.0-2, full speed
