@@ -8,7 +8,6 @@ theDate=$(\date -I)     # ISO 8601, natch
 # Where to store the log file
 logFile=~/box/leger/etc/superLog.txt
 
-
 # to log a value, the user must include it as an argument
 if [ -z $1 ]
     then 
@@ -16,6 +15,8 @@ if [ -z $1 ]
         exit 1
 fi
 
-echo $theDate   $1 >> $logFile
+echo $theDate,$1 >> $logFile
+#printf '%s,%s\n' $theDate ,$1   >> $logFile
 
-
+# Note: double quote expression to preserve carriage returns (thanks, stackoverflow)
+echo "$(tail ${logFile})"
