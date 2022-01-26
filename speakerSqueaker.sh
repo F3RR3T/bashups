@@ -36,7 +36,7 @@ else
     fi
 fi
 
-systemd-run --user --on-active=10m /usr/local/bin/speakerWatchdog.sh
+systemd-run --user --on-active=10m /usr/local/bin/speakerSqueaker.sh
 
 #to generate a tone that is not audible:
 #play -n  synth 1 sine  40 fade .2 0
