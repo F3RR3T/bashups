@@ -1,0 +1,13 @@
+[Unit]
+Description=Make sure the Speakers don't go to sleep
+After=sound.target
+
+
+[Service]
+Type=oneshot
+StandardOutput=journal
+ExecStart=-/usr/local/bin/speakerWatchdog.sh
+
+[Install]
+WantedBy=default.target
+
