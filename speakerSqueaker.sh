@@ -3,10 +3,10 @@
 #
 # SJP 11 Dec 2021
 #
+# Dependencies:     sox (required)
+#                   xprintidle (not required)
+#
 # Record a snippet of default stream:
-
-# 0 rec -d  -n trim 0 .1 stat 
-
 #    rec       sox in record mode
 #    -d        default input
 #    -n        direct output to /dev/null
@@ -17,26 +17,39 @@
 #    grep      finds this line:    Minimum amplitude:     0.000000
 #    |         pipe
 #    awk       ruturns just the third word (the number)
-#echo hello $USER | systemd-cat -t AlexySayle -p warning
-maxAmp=$(rec -d -c1 -n trim 0 .1 stat 2>&1 | grep 'Maximum amplitude' | awk {'print $3'})
-echo Max Amplitude = $maxAmp
+
+maxAmp=$(rec -d -c1 -n trim 0 .1 stat 2>&1 | grep 'Maximum amp' | awk {'print $3'})
+
+# xprintidle is logfile eyecandy. Not necessary for the script to work
+echo $(xprintidle)  Max Amplitude = "$maxAmp" | \
+    systemd-cat -t "idle time (msec) & audio level " -p notice
+
 if [ "$maxAmp" == "0.000000" ]; then
-    # if Max amplitude = 0 then we have silence!
+    # We have silence
     if [ -f "/tmp/silencemarker" ] ; then
-        # There was silence last time we checked, so play the tone
-        echo Play the sound
+        # There was silence last time we checked, so play the tone.
+        # Even though there may have been some sounds played since the previous
+        # observation, let's play it safe.
+        echo 'Play inaudible tone (40 Hz for 1 sec)'
         play -nq synth 1 sine 40 fade 0.2 0
-        rm /tmp/silencemarker
     else
         touch /tmp/silencemarker
     fi
 else 
+    # Sound was detected so remove the marker file if it is there
     if [ -f "/tmp/silencemarker" ] ; then
         rm /tmp/silencemarker
     fi
 fi
 
+# Set a 10 minute timer. Accuracy is 'per-minute' so the interval may be
+# as long as 11 minutes. This is ok for Creative Gigaworks; they turn off after 11+mins.
 systemd-run --user --on-active=10m /usr/local/bin/speakerSqueaker.sh
+
+#TODO: possibly allow actual turn off if no sound has been heard for a 'long' time
+#TODO: Measure actual power consumption to see how futile erp actually is
+# http://eco3e.eu/regulations/erp-directive/
+
 
 #to generate a tone that is not audible:
 #play -n  synth 1 sine  40 fade .2 0

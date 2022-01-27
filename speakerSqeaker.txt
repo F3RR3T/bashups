@@ -63,3 +63,23 @@ play -n  synth 1 sine  40 fade .2 0
   40      Hz
   fade    fade in from zero volume to max volume over 200 msec.
           '0' says fade out at end over same period.
+
+
+Communicate with journald:
+echo hello $USER | systemd-cat -t AlexySayle -p warning
+    -t lable the source of the message
+    -p priority level - affects colour in logfile. 
+                        Alert creates a bell (hw speaker beep) (ASCII 0x07)
+RED
+Jan 27 13:07:40 cr4y Tui the Dog[5693]: Thu, 27 Jan 2022 13:07:40 +1100 woof woof alert
+Jan 27 13:07:52 cr4y Tui the Dog[5697]: Thu, 27 Jan 2022 13:07:52 +1100 woof woof crit
+Jan 27 13:08:02 cr4y Tui the Dog[5701]: Thu, 27 Jan 2022 13:08:02 +1100 woof woof err
+Yellow, bold
+Jan 27 13:08:14 cr4y Tui the Dog[5704]: Thu, 27 Jan 2022 13:08:14 +1100 woof woof warning
+Green, bold
+Jan 27 13:08:28 cr4y Tui the Dog[5707]: Thu, 27 Jan 2022 13:08:28 +1100 woof woof notice
+Green (default)
+Jan 27 13:08:40 cr4y Tui the Dog[5710]: Thu, 27 Jan 2022 13:08:40 +1100 woof woof info
+Grey
+Jan 27 13:08:50 cr4y Tui the Dog[5713]: Thu, 27 Jan 2022 13:08:50 +1100 woof woof debug
+
