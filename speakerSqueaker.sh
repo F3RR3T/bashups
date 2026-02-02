@@ -23,20 +23,20 @@ maxAmp=$(rec -d -c1 -n trim 0 .5 stat 2>&1 | grep 'Maximum amp' | awk {'print $3
 # xprintidle is logfile eyecandy. Not necessary for the script to work
 echo $(xprintidle)  Max Amplitude = "$maxAmp" | \
     systemd-cat -t "idle time (msec) & audio level " -p notice
+    
+timerMins=10m       # default timer duration
 
 if [ "$maxAmp" == "0.000000" ]; then
     # We have silence
-    if [ -f "/tmp/silencemarker" ] ; then
-        timerMins=10m
-    else
+    if [ ! -f "/tmp/silencemarker" ] ; then
+        # This is the first instance of silence after detecting noise
         touch /tmp/silencemarker
-        timerMins=4m
     fi
     # Play the tone.
     # Even though there may have been some sounds played since the previous
     # observation, let's play it safe.
-    echo 'Play inaudible tone (40 Hz for 1 sec)'
-    play -nq synth 1 sine 40 fade 0.2 0
+    echo 'Play inaudible tone (20 Hz for 2 sec)'
+    play -nq synth 2 sine 20 fade 0.4 0
 else 
     # Sound was detected so remove the marker file if it is there
     if [ -f "/tmp/silencemarker" ] ; then

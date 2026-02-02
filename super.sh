@@ -15,8 +15,11 @@ if [ -z $1 ]
         exit 1
 fi
 
-echo $theDate,$1 >> $logFile
-#printf '%s,%s\n' $theDate ,$1   >> $logFile
+if [ $1 != "tail" ]
+   then
+      echo $theDate,$1 >> $logFile
+      #printf '%s,%s\n' $theDate ,$1   >> $logFile
+fi
 
 # Note: double quote expression to preserve carriage returns (thanks, stackoverflow)
 echo "$(tail ${logFile})"
