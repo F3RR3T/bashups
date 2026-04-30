@@ -1,8 +1,10 @@
 # logging and 'notify-send' functions
 # SJP 2 Feb 2026
 #
-#
-#!/usr/bin/env bash
+(return 0 2>/dev/null) || {
+  echo "This file is meant to be sourced, not executed." >&2
+  exit 1
+}
 
 APP_NAME="$(basename "${0%% *}")"
 JOURNAL_TAG="${APP_NAME%%.*}"
@@ -26,3 +28,11 @@ log() {
   # Also notify (best-effort)
   notify "$msg"
 }
+
+die() {
+  local code=1
+  [[ "$1" =~ ^[0-9]+$ ]] && { code="$1"; shift; }
+  log "ERROR: $*"
+  exit "$code"
+}
+
